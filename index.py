@@ -28,8 +28,6 @@ print(df)
 entries = []
 for rowIndex, row in df.iterrows(): #iterate over rows
     for columnIndex, value in row.items():
-        # print(value, end="\t")
-        # print(value, end="\n")
         val = str(value)
         if val != 'nan':
             entries.append(val)
@@ -42,11 +40,15 @@ url = 'https://openscoring.du.edu/'
 model = '/llm?model=gpt-davinci-paper_alpha'
 prompt = '&prompt=brick'
 inputs = [input.replace(' ', '%20') for input in entries]
-
 print(inputs)
+n_inputs = '&input='.join(inputs)
+input_type = '&input_type=csv'
 
-# response = requests.get('&input=build%20a%20wall&input=paper%20weight&input=weapon&input_type=csv')
+print(n_inputs)
 
+response = requests.get(url + model + prompt + n_inputs + input_type)
+
+# https://openscoring.du.edu/llm?model=gpt-davinci-paper_alpha&prompt=brick&input=weight&input_type=csv
 # Workbook() takes one, non-optional, argument
 # which is the filename that we want to create.
 workbook = xlsxwriter.Workbook('hello.xlsx')
