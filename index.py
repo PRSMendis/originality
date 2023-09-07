@@ -35,12 +35,17 @@ for rowIndex, row in df.iterrows(): #iterate over rows
             entries.append(val)
     print()
 
-# entries = list(filter(lambda x: (value != 'nan'), entries))
-# entries = list(filter(lambda x: (value != 'be part of a construction'), entries))
 
 print(entries)
 
-response = requests.get('https://openscoring.du.edu/llm?model=gpt-davinci-paper_alpha&prompt=brick&input=build%20a%20wall&input=paper%20weight&input=weapon&input_type=csv')
+url = 'https://openscoring.du.edu/'
+model = '/llm?model=gpt-davinci-paper_alpha'
+prompt = '&prompt=brick'
+inputs = [input.replace(' ', '%20') for input in entries]
+
+print(inputs)
+
+# response = requests.get('&input=build%20a%20wall&input=paper%20weight&input=weapon&input_type=csv')
 
 # Workbook() takes one, non-optional, argument
 # which is the filename that we want to create.
@@ -52,13 +57,23 @@ worksheet = workbook.add_worksheet()
 
 data = response.json()
 for i, key in enumerate(data):
+    # doubler
+    i = 4 * i
     print(key, '->', data[key])
     # worksheet.write(i, key, data[key])
     worksheet.write(0, i, str(key))
-    # try:
-    #     worksheet.write(i, key, data[key])
-    # except:
-    #     print(data[key])
+    try:
+        worksheet.write(0, i, str(key))
+        if type(data[key]) == list:
+            for j, value in enumerate(data[key]):
+                worksheet.write(j+1, i, str(value))
+        elif type(data[key]) == dict:
+            for j, value in enumerate(data[key]):
+                worksheet.write(j+1, i, str(value))
+        else:
+            worksheet.write(1, i, str(data[key]))
+    except:
+        print('AAAAAAA', data[key])
 
 
 
