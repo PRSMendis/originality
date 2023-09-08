@@ -4,25 +4,31 @@ First, we need to import the 3 dependancies
 1. Pandas
 2. Requests
 3. openpyxl 
-4. requests_toolbelt
+4. xlsxwriter
 You can do this by running the following commands in your terminal:
-pip install pandas && pip install requests && pip install openpyxl
+pip install pandas && pip install requests && pip install openpyxl && pip install xlsxwriter
 or 
 pip install pandas
 pip install requests
 pip install openpyxl
+pip install xlsxwriter
+
+After that, you go to the directory you have which has hello.xlsx, index.py, and origin.xlsx
+then run python index.py
+i.e. cd ~folder you have it in~
+then python index.py
+the code should execute, and you should see a new file called hello.xlsx
+this should have the data you require in sheet1
 """
 # import xlsxwriter module
 import xlsxwriter
 import requests
 import pandas as pd
-from requests_toolbelt.utils import dump
 
 
 filename = 'origin.xlsx'
 
 df = pd.read_excel(filename, sheet_name='Sheet2')
-# filter_df = pd.isnull(df.var2)
 print(df)
 
 entries = []
